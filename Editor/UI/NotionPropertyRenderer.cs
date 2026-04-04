@@ -217,6 +217,13 @@ namespace Unition.Editor.UI
                     return timeLabel;
                 }
 
+                case "button":
+                {
+                    var btnLabel = new Label("—");
+                    btnLabel.style.color = new StyleColor(new UnityEngine.Color(0.5f, 0.5f, 0.5f, 1f));
+                    return btnLabel;
+                }
+
                 default:
                     return new Label(prop.Type);
             }
@@ -225,8 +232,7 @@ namespace Unition.Editor.UI
         private static Label CreateTextLabel(string text)
         {
             var label = new Label(string.IsNullOrEmpty(text) ? "—" : text);
-            label.style.overflow = Overflow.Hidden;
-            label.style.textOverflow = TextOverflow.Ellipsis;
+            label.style.whiteSpace = WhiteSpace.Normal;
             return label;
         }
 
@@ -251,6 +257,7 @@ namespace Unition.Editor.UI
         {
             var row = new VisualElement();
             row.style.flexDirection = FlexDirection.Row;
+            row.style.flexWrap = Wrap.Wrap;
             row.style.alignItems = Align.Center;
             row.style.marginBottom = 2;
 
@@ -260,7 +267,7 @@ namespace Unition.Editor.UI
                 tooltip = "View in Page Viewer"
             };
             openBtn.style.flexShrink = 1;
-            openBtn.style.maxWidth = 200;
+            openBtn.style.whiteSpace = WhiteSpace.Normal;
             openBtn.style.color = new StyleColor(new UnityEngine.Color(0.4f, 0.7f, 1f));
             row.Add(openBtn);
 
@@ -322,6 +329,8 @@ namespace Unition.Editor.UI
                                 };
                                 assetBtn.style.marginLeft = 4;
                                 assetBtn.style.fontSize = 10;
+                                assetBtn.style.flexShrink = 1;
+                                assetBtn.style.whiteSpace = WhiteSpace.Normal;
                                 assetBtn.style.color = new StyleColor(new UnityEngine.Color(0.7f, 0.7f, 0.7f));
                                 row.Add(assetBtn);
                             }

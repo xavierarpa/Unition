@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 
 using Unition.Editor.Sync;
+using Unition.Editor.Windows;
 using Unition.Models;
 
 using UnityEditor;
@@ -42,6 +43,7 @@ namespace Unition.Editor.UI
         private readonly Label _title;
         private readonly VisualElement _propertiesContainer;
         private readonly Button _openButton;
+        private readonly Button _viewButton;
         private readonly Button _editToggleButton;
         private readonly Button _saveButton;
         private readonly VisualElement _emptyState;
@@ -122,6 +124,11 @@ namespace Unition.Editor.UI
             _openButton.style.display = DisplayStyle.None;
             Add(_openButton);
 
+            _viewButton = new Button(OnViewClicked) { text = "Open in Page Viewer" };
+            _viewButton.AddToClassList("unition-detail__open-btn");
+            _viewButton.style.display = DisplayStyle.None;
+            Add(_viewButton);
+
             _syncBar = new VisualElement();
             _syncBar.style.flexDirection = FlexDirection.Column;
             _syncBar.style.backgroundColor = new StyleColor(new Color(0.18f, 0.25f, 0.22f));
@@ -199,6 +206,7 @@ namespace Unition.Editor.UI
             _emptyState.style.display = DisplayStyle.None;
             _title.style.display = DisplayStyle.Flex;
             _openButton.style.display = DisplayStyle.Flex;
+            _viewButton.style.display = DisplayStyle.Flex;
             _propertiesContainer.style.display = DisplayStyle.Flex;
 
             _editToggleButton.parent.style.display = DisplayStyle.Flex;
@@ -221,6 +229,7 @@ namespace Unition.Editor.UI
             _emptyState.style.display = DisplayStyle.Flex;
             _title.style.display = DisplayStyle.None;
             _openButton.style.display = DisplayStyle.None;
+            _viewButton.style.display = DisplayStyle.None;
             _syncBar.style.display = DisplayStyle.None;
             _propertiesContainer.style.display = DisplayStyle.None;
             _propertiesContainer.Clear();
@@ -367,6 +376,14 @@ namespace Unition.Editor.UI
             if (_page?.Url != null)
             {
                 Application.OpenURL(_page.Url);
+            }
+        }
+
+        private void OnViewClicked()
+        {
+            if (_page != null && !string.IsNullOrEmpty(_page.Id))
+            {
+                NotionPageViewerWindow.ShowPage(_page.Id);
             }
         }
 

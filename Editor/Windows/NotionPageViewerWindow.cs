@@ -115,6 +115,7 @@ namespace Unition.Editor.Windows
             _titleLabel.style.paddingLeft = 12;
             _titleLabel.style.paddingTop = 8;
             _titleLabel.style.paddingBottom = 4;
+            _titleLabel.style.whiteSpace = WhiteSpace.Normal;
             root.Add(_titleLabel);
 
             _contentScroll = new ScrollView(ScrollViewMode.Vertical);
@@ -403,6 +404,7 @@ namespace Unition.Editor.Windows
             {
                 var row = new VisualElement();
                 row.style.flexDirection = FlexDirection.Row;
+                row.style.flexWrap = Wrap.Wrap;
                 row.style.marginBottom = 4;
                 row.style.paddingLeft = 4;
 
@@ -411,10 +413,12 @@ namespace Unition.Editor.Windows
                 nameLabel.style.minWidth = 100;
                 nameLabel.style.color = new StyleColor(new Color(0.6f, 0.6f, 0.6f));
                 nameLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
+                nameLabel.style.whiteSpace = WhiteSpace.Normal;
                 row.Add(nameLabel);
 
                 var valueElement = NotionPropertyRenderer.Render(kvp.Value);
                 valueElement.style.flexGrow = 1;
+                valueElement.style.flexShrink = 1;
                 row.Add(valueElement);
 
                 _contentScroll.Add(row);

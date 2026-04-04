@@ -70,5 +70,16 @@ namespace Unition.Models
             var richTexts = richTextArray.ToObject<List<NotionRichText>>();
             return NotionRichText.ToPlainText(richTexts);
         }
+
+        public List<NotionRichText> GetRichTexts()
+        {
+            var content = GetContent();
+            var richTextArray = content?["rich_text"];
+            if (richTextArray == null)
+            {
+                return null;
+            }
+            return richTextArray.ToObject<List<NotionRichText>>();
+        }
     }
 }
