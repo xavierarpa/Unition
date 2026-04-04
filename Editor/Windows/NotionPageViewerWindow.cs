@@ -109,7 +109,7 @@ namespace Unition.Editor.Windows
             _searchResults.style.display = DisplayStyle.None;
             root.Add(_searchResults);
 
-            _titleLabel = new Label();
+            _titleLabel = CreateSelectableLabel("");
             _titleLabel.style.fontSize = 18;
             _titleLabel.style.unityFontStyleAndWeight = FontStyle.Bold;
             _titleLabel.style.paddingLeft = 12;
@@ -284,7 +284,7 @@ namespace Unition.Editor.Windows
 
                 if (blocks.Count > 0)
                 {
-                    var contentHeader = CreateHeading("Page Content", 14, 0);
+                    var contentHeader = CreateHeading(null, "Page Content", 14, 0);
                     contentHeader.style.marginTop = 12;
                     _contentScroll.Add(contentHeader);
                     _contentScroll.Add(CreateDivider());
@@ -408,7 +408,7 @@ namespace Unition.Editor.Windows
                 row.style.marginBottom = 4;
                 row.style.paddingLeft = 4;
 
-                var nameLabel = new Label(kvp.Key);
+                var nameLabel = CreateSelectableLabel(kvp.Key);
                 nameLabel.style.width = 150;
                 nameLabel.style.minWidth = 100;
                 nameLabel.style.color = new StyleColor(new Color(0.6f, 0.6f, 0.6f));
@@ -675,7 +675,7 @@ namespace Unition.Editor.Windows
             container.style.marginTop = 4;
             container.style.marginBottom = 4;
 
-            var label = new Label(text);
+            var label = CreateSelectableLabel(text);
             label.style.whiteSpace = WhiteSpace.Normal;
             label.style.fontSize = 12;
             container.Add(label);
