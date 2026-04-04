@@ -1,0 +1,502 @@
+:root {
+    --unition-bg: #2b2b2b;
+    --unition-bg-alt: #333333;
+    --unition-bg-hover: #3a3a3a;
+    --unition-bg-selected: #2c5d87;
+    --unition-border: #1a1a1a;
+    --unition-text: #d4d4d4;
+    --unition-text-dim: #808080;
+    --unition-accent: #4fc1ff;
+    --unition-success: #4ec9b0;
+    --unition-warning: #dcdcaa;
+    --unition-error: #f44747;
+    --unition-pill-red: #e06c75;
+    --unition-pill-green: #98c379;
+    --unition-pill-blue: #61afef;
+    --unition-pill-yellow: #e5c07b;
+    --unition-pill-purple: #c678dd;
+    --unition-pill-pink: #e06c98;
+    --unition-pill-orange: #d19a66;
+    --unition-pill-gray: #5c6370;
+    --unition-pill-brown: #a67c52;
+    --unition-pill-default: #5c6370;
+}
+
+/* ── Layout ──────────────────────────────────────────────────── */
+
+.unition-root {
+    flex-grow: 1;
+    background-color: var(--unition-bg);
+}
+
+.unition-toolbar {
+    flex-direction: row;
+    align-items: center;
+    height: 28px;
+    padding: 0 4px;
+    background-color: var(--unition-bg-alt);
+    border-bottom-width: 1px;
+    border-bottom-color: var(--unition-border);
+}
+
+.unition-toolbar__title {
+    font-size: 12px;
+    -unity-font-style: bold;
+    color: var(--unition-text);
+    margin-left: 4px;
+}
+
+.unition-toolbar__spacer {
+    flex-grow: 1;
+}
+
+.unition-content {
+    flex-grow: 1;
+    flex-direction: row;
+}
+
+.unition-sidebar {
+    width: 260px;
+    min-width: 180px;
+    border-right-width: 1px;
+    border-right-color: var(--unition-border);
+    background-color: var(--unition-bg);
+}
+
+.unition-main {
+    flex-grow: 1;
+    background-color: var(--unition-bg);
+}
+
+.unition-detail-panel {
+    width: 320px;
+    min-width: 200px;
+    border-left-width: 1px;
+    border-left-color: var(--unition-border);
+    background-color: var(--unition-bg);
+    padding: 8px;
+    padding-top: 28px;
+}
+
+/* ── Settings view ───────────────────────────────────────────── */
+
+.unition-settings {
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+    flex-grow: 1;
+}
+
+.unition-settings__card {
+    width: 400px;
+    padding: 20px;
+    background-color: var(--unition-bg-alt);
+    border-radius: 6px;
+    border-width: 1px;
+    border-color: var(--unition-border);
+}
+
+.unition-settings__title {
+    font-size: 16px;
+    -unity-font-style: bold;
+    color: var(--unition-text);
+    margin-bottom: 4px;
+}
+
+.unition-settings__subtitle {
+    font-size: 11px;
+    color: var(--unition-text-dim);
+    margin-bottom: 16px;
+}
+
+.unition-settings__label {
+    font-size: 11px;
+    color: var(--unition-text);
+    margin-bottom: 4px;
+}
+
+.unition-settings__token-field {
+    margin-bottom: 12px;
+}
+
+.unition-settings__token-field TextField {
+    -unity-font-style: normal;
+}
+
+.unition-settings__button-row {
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 8px;
+}
+
+.unition-settings__status {
+    font-size: 11px;
+    margin-top: 8px;
+    padding: 6px 8px;
+    border-radius: 4px;
+}
+
+.unition-settings__status--success {
+    color: var(--unition-success);
+    background-color: #1a3a2a;
+}
+
+.unition-settings__status--error {
+    color: var(--unition-error);
+    background-color: #3a1a1a;
+}
+
+/* ── Database list ───────────────────────────────────────────── */
+
+.unition-db-list__header {
+    flex-direction: row;
+    align-items: center;
+    padding: 8px;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--unition-border);
+}
+
+.unition-db-list__search {
+    flex-grow: 1;
+    margin-right: 4px;
+}
+
+.unition-db-list__scroll {
+    flex-grow: 1;
+}
+
+.unition-db-item {
+    flex-direction: row;
+    align-items: center;
+    padding: 6px 8px;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--unition-border);
+}
+
+.unition-db-item:hover {
+    background-color: var(--unition-bg-hover);
+}
+
+.unition-db-item--selected {
+    background-color: var(--unition-bg-selected);
+}
+
+.unition-db-item__icon {
+    font-size: 16px;
+    width: 24px;
+    -unity-text-align: middle-center;
+}
+
+.unition-db-item__info {
+    flex-grow: 1;
+    margin-left: 4px;
+}
+
+.unition-db-item__name {
+    font-size: 12px;
+    color: var(--unition-text);
+    -unity-font-style: bold;
+}
+
+.unition-db-item__meta {
+    font-size: 10px;
+    color: var(--unition-text-dim);
+}
+
+.unition-db-item__fav {
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+    border-width: 0;
+    background-color: rgba(0,0,0,0);
+    -unity-text-align: middle-center;
+    color: var(--unition-text-dim);
+}
+
+.unition-db-item__fav--active {
+    color: var(--unition-warning);
+}
+
+/* ── Table ───────────────────────────────────────────────────── */
+
+.unition-table {
+    flex-grow: 1;
+}
+
+.unition-table__toolbar {
+    flex-direction: row;
+    align-items: center;
+    padding: 4px 8px;
+    height: 28px;
+    background-color: var(--unition-bg-alt);
+    border-bottom-width: 1px;
+    border-bottom-color: var(--unition-border);
+}
+
+.unition-table__info {
+    font-size: 11px;
+    color: var(--unition-text-dim);
+}
+
+.unition-table__search {
+    width: 200px;
+    margin-left: 8px;
+}
+
+.unition-table__scroll {
+    flex-grow: 1;
+}
+
+.unition-table__header-row {
+    flex-direction: row;
+    background-color: var(--unition-bg-alt);
+    border-bottom-width: 1px;
+    border-bottom-color: var(--unition-border);
+    min-height: 26px;
+}
+
+.unition-table__header-cell {
+    padding: 4px 8px;
+    font-size: 11px;
+    -unity-font-style: bold;
+    color: var(--unition-text-dim);
+    min-width: 80px;
+    border-right-width: 1px;
+    border-right-color: var(--unition-border);
+    overflow: hidden;
+}
+
+.unition-table__row {
+    flex-direction: row;
+    min-height: 24px;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--unition-border);
+    flex-shrink: 0;
+}
+
+.unition-table__row:hover {
+    background-color: var(--unition-bg-hover);
+}
+
+.unition-table__row--selected {
+    background-color: var(--unition-bg-selected);
+}
+
+.unition-table__cell {
+    padding: 3px 8px;
+    font-size: 11px;
+    color: var(--unition-text);
+    min-width: 80px;
+    border-right-width: 1px;
+    border-right-color: var(--unition-border);
+    overflow: hidden;
+    -unity-text-align: middle-left;
+}
+
+.unition-table__cell--number {
+    -unity-text-align: middle-right;
+}
+
+.unition-table__cell--checkbox {
+    -unity-text-align: middle-center;
+}
+
+/* ── Property pills ──────────────────────────────────────────── */
+
+.unition-pill {
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 10px;
+    color: white;
+    margin: 1px 2px;
+    align-self: center;
+}
+
+.unition-pill--red { background-color: var(--unition-pill-red); }
+.unition-pill--green { background-color: var(--unition-pill-green); color: #1a1a1a; }
+.unition-pill--blue { background-color: var(--unition-pill-blue); color: #1a1a1a; }
+.unition-pill--yellow { background-color: var(--unition-pill-yellow); color: #1a1a1a; }
+.unition-pill--purple { background-color: var(--unition-pill-purple); }
+.unition-pill--pink { background-color: var(--unition-pill-pink); }
+.unition-pill--orange { background-color: var(--unition-pill-orange); color: #1a1a1a; }
+.unition-pill--gray { background-color: var(--unition-pill-gray); }
+.unition-pill--brown { background-color: var(--unition-pill-brown); }
+.unition-pill--default { background-color: var(--unition-pill-default); }
+
+/* ── Detail panel ────────────────────────────────────────────── */
+
+.unition-detail__title {
+    font-size: 14px;
+    -unity-font-style: bold;
+    color: var(--unition-text);
+    margin-bottom: 8px;
+}
+
+.unition-detail__section {
+    margin-bottom: 12px;
+}
+
+.unition-detail__prop-name {
+    font-size: 10px;
+    color: var(--unition-text-dim);
+    margin-bottom: 2px;
+}
+
+.unition-detail__prop-value {
+    font-size: 12px;
+    color: var(--unition-text);
+    margin-bottom: 8px;
+    white-space: normal;
+}
+
+.unition-detail__open-btn {
+    margin-top: 8px;
+}
+
+/* ── Loading / Empty states ──────────────────────────────────── */
+
+.unition-loading {
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.unition-loading__spinner {
+    width: 16px;
+    height: 16px;
+    margin-right: 6px;
+    border-width: 2px;
+    border-color: var(--unition-border);
+    border-top-color: var(--unition-accent);
+    border-radius: 8px;
+    rotate: 0deg;
+    transition-property: rotate;
+    transition-duration: 0ms;
+}
+
+.unition-loading__text {
+    font-size: 12px;
+    color: var(--unition-text-dim);
+}
+
+.unition-empty {
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.unition-empty__text {
+    font-size: 12px;
+    color: var(--unition-text-dim);
+    -unity-text-align: middle-center;
+}
+
+/* ── Load more button ────────────────────────────────────────── */
+
+.unition-load-more {
+    height: 28px;
+    margin: 4px 8px;
+    -unity-text-align: middle-center;
+}
+
+/* ── Schema view ─────────────────────────────────────────────── */
+
+.unition-schema__prop {
+    flex-direction: row;
+    padding: 2px 0;
+}
+
+.unition-schema__prop-name {
+    font-size: 11px;
+    color: var(--unition-text);
+    width: 120px;
+}
+
+.unition-schema__prop-type {
+    font-size: 11px;
+    color: var(--unition-accent);
+}
+
+/* ── Buttons ─────────────────────────────────────────────────── */
+
+.unition-btn-primary {
+    background-color: #2c5d87;
+    color: var(--unition-text);
+    border-width: 1px;
+    border-color: #3a7ab5;
+    border-radius: 3px;
+    padding: 3px 10px;
+    -unity-font-style: bold;
+}
+
+.unition-btn-primary:hover {
+    background-color: #3a7ab5;
+}
+
+/* ── Settings card (reusable) ────────────────────────────────── */
+
+.unition-settings-card {
+    padding: 10px;
+    background-color: var(--unition-bg-alt);
+    border-radius: 4px;
+    border-width: 1px;
+    border-color: var(--unition-border);
+}
+
+/* ── Sync log panel ──────────────────────────────────────────── */
+
+.unition-sync-log {
+    background-color: var(--unition-bg-alt);
+    overflow: scroll;
+}
+
+.unition-sync-log Label {
+    white-space: normal;
+    overflow: visible;
+}
+
+/* ── Error word-wrap ─────────────────────────────────────────── */
+
+.unition-settings__status--error {
+    white-space: normal;
+    overflow: visible;
+}
+
+/* ── Column resize ───────────────────────────────────────────── */
+
+.unition-table__header-cell--resizable {
+    cursor: resize-horizontal;
+}
+
+.unition-table__header-cell--resizable:hover {
+    background-color: var(--unition-accent);
+}
+
+.unition-table__header-cell,
+.unition-table__cell {
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+/* ── Detail close button ─────────────────────────────────────── */
+
+.unition-detail__close-btn {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    width: 22px;
+    height: 22px;
+    border-width: 0;
+    background-color: rgba(0, 0, 0, 0);
+    font-size: 14px;
+    -unity-text-align: middle-center;
+    color: var(--unition-text-dim);
+}
+
+.unition-detail__close-btn:hover {
+    color: var(--unition-text);
+    background-color: var(--unition-bg-hover);
+    border-radius: 3px;
+}
