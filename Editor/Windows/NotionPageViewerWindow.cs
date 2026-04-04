@@ -460,34 +460,35 @@ namespace Unition.Editor.Windows
 
         private VisualElement RenderBlock(NotionBlock block, int indent)
         {
+            var richTexts = block.GetRichTexts();
             var text = block.GetPlainText() ?? "";
 
             switch (block.Type)
             {
                 case "heading_1":
-                    return CreateHeading(text, 20, indent);
+                    return CreateHeading(richTexts, text, 20, indent);
                 case "heading_2":
-                    return CreateHeading(text, 16, indent);
+                    return CreateHeading(richTexts, text, 16, indent);
                 case "heading_3":
-                    return CreateHeading(text, 14, indent);
+                    return CreateHeading(richTexts, text, 14, indent);
                 case "paragraph":
-                    return CreateParagraph(text, indent);
+                    return CreateParagraph(richTexts, text, indent);
                 case "bulleted_list_item":
-                    return CreateListItem("•", text, indent);
+                    return CreateListItem("•", richTexts, text, indent);
                 case "numbered_list_item":
-                    return CreateListItem("", text, indent);
+                    return CreateListItem("", richTexts, text, indent);
                 case "to_do":
                 {
                     var content = block.GetContent();
                     var isChecked = content?["checked"]?.ToObject<bool>() ?? false;
-                    return CreateListItem(isChecked ? "☑" : "☐", text, indent);
+                    return CreateListItem(isChecked ? "☑" : "☐", richTexts, text, indent);
                 }
                 case "toggle":
-                    return CreateListItem("▶", text, indent);
+                    return CreateListItem("▶", richTexts, text, indent);
                 case "quote":
-                    return CreateQuote(text, indent);
+                    return CreateQuote(richTexts, text, indent);
                 case "callout":
-                    return CreateCallout(text, indent);
+                    return CreateCallout(richTexts, text, indent);
                 case "divider":
                     return CreateDivider();
                 case "code":
@@ -495,34 +496,101 @@ namespace Unition.Editor.Windows
                 default:
                     if (!string.IsNullOrEmpty(text))
                     {
-                        return CreateParagraph(text, indent);
+                        return CreateParagraph(richTexts, text, indent);
                     }
                     return null;
             }
         }
 
-        private static Label CreateHeading(string text, int fontSize, int indent)
+        private static VisualElement CreateRichTextFlow(List<NotionRichText> richTexts, string fallback)
+        {
+            if (richTexts == null || richTexts.Count == 0)
+            {
+                var label = CreateSelectableLabel(fallback);
+                label.style.whiteSpace = WhiteSpace.Normal;
+                return label;
+            }
+
+            var hasLinks = richTexts.Any(rt => !string.IsNullOrEmpty(rt.Href));
+            if (!hasLinks)
+            {
+                var label = CreateSelectableLabel(NotionRichText.ToPlainText(richTexts));
+                label.style.whiteSpace = WhiteSpace.Normal;
+                return label;
+            }
+
+            var container = new VisualElement();
+            container.style.flexDirection = FlexDirection.Row;
+            container.style.flexWrap = Wrap.Wrap;
+
+            foreach (var rt in richTexts)
+            {
+                var plainText = rt.PlainText ?? "";
+                if (string.IsNullOrEmpty(plainText))
+                {
+                    continue;
+                }
+
+                if (!string.IsNullOrEmpty(rt.Href))
+                {
+                    var url = rt.Href;
+                    var link = new Button(() => Application.OpenURL(url))
+                    {
+                        text = plainText,
+                        tooltip = url
+                    };
+                    link.style.color = new StyleColor(new Color(0.31f, 0.76f, 1f));
+                    link.style.borderBottomWidth = 0;
+                    link.style.borderTopWidth = 0;
+                    link.style.borderLeftWidth = 0;
+                    link.style.borderRightWidth = 0;
+                    link.style.backgroundColor = StyleKeyword.None;
+                    link.style.paddingLeft = 0;
+                    link.style.paddingRight = 0;
+                    link.style.paddingTop = 0;
+                    link.style.paddingBottom = 0;
+                    link.style.marginLeft = 0;
+                    link.style.marginRight = 0;
+                    link.style.whiteSpace = WhiteSpace.Normal;
+                    container.Add(link);
+                }
+                else
+                {
+                    var span = CreateSelectableLabel(plainText);
+                    span.style.whiteSpace = WhiteSpace.Normal;
+                    container.Add(span);
+                }
+            }
+            return container;
+        }
+
+        private static Label CreateSelectableLabel(string text)
         {
             var label = new Label(text);
-            label.style.fontSize = fontSize;
-            label.style.unityFontStyleAndWeight = FontStyle.Bold;
-            label.style.marginTop = 8;
-            label.style.marginBottom = 4;
-            label.style.paddingLeft = indent * 16;
-            label.style.whiteSpace = WhiteSpace.Normal;
+            label.selection.isSelectable = true;
             return label;
         }
 
-        private static Label CreateParagraph(string text, int indent)
+        private static VisualElement CreateHeading(List<NotionRichText> richTexts, string fallback, int fontSize, int indent)
         {
-            var label = new Label(text);
-            label.style.marginBottom = 4;
-            label.style.paddingLeft = indent * 16;
-            label.style.whiteSpace = WhiteSpace.Normal;
-            return label;
+            var element = CreateRichTextFlow(richTexts, fallback);
+            element.style.fontSize = fontSize;
+            element.style.unityFontStyleAndWeight = FontStyle.Bold;
+            element.style.marginTop = 8;
+            element.style.marginBottom = 4;
+            element.style.paddingLeft = indent * 16;
+            return element;
         }
 
-        private static VisualElement CreateListItem(string bullet, string text, int indent)
+        private static VisualElement CreateParagraph(List<NotionRichText> richTexts, string fallback, int indent)
+        {
+            var element = CreateRichTextFlow(richTexts, fallback);
+            element.style.marginBottom = 4;
+            element.style.paddingLeft = indent * 16;
+            return element;
+        }
+
+        private static VisualElement CreateListItem(string bullet, List<NotionRichText> richTexts, string fallback, int indent)
         {
             var row = new VisualElement();
             row.style.flexDirection = FlexDirection.Row;
@@ -537,15 +605,14 @@ namespace Unition.Editor.Windows
                 row.Add(bulletLabel);
             }
 
-            var textLabel = new Label(text);
-            textLabel.style.flexGrow = 1;
-            textLabel.style.whiteSpace = WhiteSpace.Normal;
-            row.Add(textLabel);
+            var textElement = CreateRichTextFlow(richTexts, fallback);
+            textElement.style.flexGrow = 1;
+            row.Add(textElement);
 
             return row;
         }
 
-        private static VisualElement CreateQuote(string text, int indent)
+        private static VisualElement CreateQuote(List<NotionRichText> richTexts, string fallback, int indent)
         {
             var container = new VisualElement();
             container.style.borderLeftWidth = 3;
@@ -554,16 +621,15 @@ namespace Unition.Editor.Windows
             container.style.marginTop = 4;
             container.style.marginBottom = 4;
 
-            var label = new Label(text);
-            label.style.unityFontStyleAndWeight = FontStyle.Italic;
-            label.style.color = new StyleColor(new Color(0.7f, 0.7f, 0.7f));
-            label.style.whiteSpace = WhiteSpace.Normal;
-            container.Add(label);
+            var element = CreateRichTextFlow(richTexts, fallback);
+            element.style.unityFontStyleAndWeight = FontStyle.Italic;
+            element.style.color = new StyleColor(new Color(0.7f, 0.7f, 0.7f));
+            container.Add(element);
 
             return container;
         }
 
-        private static VisualElement CreateCallout(string text, int indent)
+        private static VisualElement CreateCallout(List<NotionRichText> richTexts, string fallback, int indent)
         {
             var container = new VisualElement();
             container.style.backgroundColor = new StyleColor(new Color(0.2f, 0.2f, 0.25f));
@@ -578,9 +644,8 @@ namespace Unition.Editor.Windows
             container.style.marginTop = 4;
             container.style.marginBottom = 4;
 
-            var label = new Label(text);
-            label.style.whiteSpace = WhiteSpace.Normal;
-            container.Add(label);
+            var element = CreateRichTextFlow(richTexts, fallback);
+            container.Add(element);
 
             return container;
         }
