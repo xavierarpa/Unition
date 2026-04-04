@@ -354,7 +354,44 @@ namespace Unition.Editor.Windows
                     }
                 }
 
+                var browseBtn = new Button(() =>
+                    NotionBrowserWindow.ShowDatabase(syncEntry.profile.DatabaseId))
+                { text = "Browse", tooltip = "Open database in Notion Browser" };
+                browseBtn.style.marginLeft = 4;
+                syncBar.Add(browseBtn);
+
                 _contentScroll.Add(syncBar);
+            }
+            else if (page.Parent != null && page.Parent.Type == "database_id"
+                     && !string.IsNullOrEmpty(page.Parent.DatabaseId))
+            {
+                var dbId = page.Parent.DatabaseId;
+                var dbBar = new VisualElement();
+                dbBar.style.flexDirection = FlexDirection.Row;
+                dbBar.style.alignItems = Align.Center;
+                dbBar.style.backgroundColor = new StyleColor(new Color(0.2f, 0.22f, 0.28f));
+                dbBar.style.borderTopLeftRadius = 4;
+                dbBar.style.borderTopRightRadius = 4;
+                dbBar.style.borderBottomLeftRadius = 4;
+                dbBar.style.borderBottomRightRadius = 4;
+                dbBar.style.paddingLeft = 8;
+                dbBar.style.paddingRight = 8;
+                dbBar.style.paddingTop = 4;
+                dbBar.style.paddingBottom = 4;
+                dbBar.style.marginBottom = 8;
+
+                var dbLabel = new Label("Database item");
+                dbLabel.style.color = new StyleColor(new Color(0.6f, 0.7f, 0.85f));
+                dbLabel.style.flexGrow = 1;
+                dbBar.Add(dbLabel);
+
+                var browseBtnUnsync = new Button(() =>
+                    NotionBrowserWindow.ShowDatabase(dbId))
+                { text = "Browse", tooltip = "Open database in Notion Browser" };
+                browseBtnUnsync.style.marginLeft = 4;
+                dbBar.Add(browseBtnUnsync);
+
+                _contentScroll.Add(dbBar);
             }
 
             var sorted = page.Properties

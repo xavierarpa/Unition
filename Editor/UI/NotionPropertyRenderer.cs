@@ -256,11 +256,12 @@ namespace Unition.Editor.UI
 
             var openBtn = new Button(() => NotionPageViewerWindow.ShowPage(pageId))
             {
-                text = pageId.Length > 8 ? pageId.Substring(0, 8) + "…" : pageId,
-                tooltip = "Open in Page Viewer"
+                text = "📄 " + (pageId.Length > 8 ? pageId.Substring(0, 8) + "…" : pageId),
+                tooltip = "View in Page Viewer"
             };
             openBtn.style.flexShrink = 1;
             openBtn.style.maxWidth = 200;
+            openBtn.style.color = new StyleColor(new UnityEngine.Color(0.4f, 0.7f, 1f));
             row.Add(openBtn);
 
             LoadRelationInfoAsync(pageId, openBtn, row);
@@ -287,8 +288,8 @@ namespace Unition.Editor.UI
                 var title = page.GetTitle();
                 if (!string.IsNullOrEmpty(title))
                 {
-                    titleButton.text = title;
-                    titleButton.tooltip = $"{title}\n{pageId}";
+                    titleButton.text = "📄 " + title;
+                    titleButton.tooltip = $"View in Page Viewer\n{title}\n{pageId}";
                 }
 
                 var profileGuids = AssetDatabase.FindAssets("t:NotionSyncProfile");
@@ -316,11 +317,12 @@ namespace Unition.Editor.UI
                                     Selection.activeObject = asset;
                                 })
                                 {
-                                    text = asset.name,
-                                    tooltip = assetPath
+                                    text = "→ " + asset.name,
+                                    tooltip = "Select in Project\n" + assetPath
                                 };
                                 assetBtn.style.marginLeft = 4;
                                 assetBtn.style.fontSize = 10;
+                                assetBtn.style.color = new StyleColor(new UnityEngine.Color(0.7f, 0.7f, 0.7f));
                                 row.Add(assetBtn);
                             }
                         }

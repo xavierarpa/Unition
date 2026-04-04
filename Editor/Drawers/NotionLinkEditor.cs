@@ -108,6 +108,19 @@ namespace Unition.Editor.Drawers
                 {
                     OpenInNotion();
                 }
+
+                if (GUILayout.Button("View", EditorStyles.miniButton, GUILayout.Width(40)))
+                {
+                    NotionPageViewerWindow.ShowPage(_matchedEntry.NotionPageId);
+                }
+            }
+
+            if (_matchedProfile != null)
+            {
+                if (GUILayout.Button("Browse", EditorStyles.miniButton, GUILayout.Width(50)))
+                {
+                    NotionBrowserWindow.ShowDatabase(_matchedProfile.DatabaseId);
+                }
             }
 
             if (GUILayout.Button("Refresh", EditorStyles.miniButton, GUILayout.Width(60)))
