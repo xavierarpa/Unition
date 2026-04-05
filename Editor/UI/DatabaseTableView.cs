@@ -121,7 +121,7 @@ namespace Unition.Editor.UI
 
             _scrollView.horizontalScroller.valueChanged += v =>
             {
-                _headerRow.transform.position = new Vector3(-v, 0, 0);
+                _headerRow.style.translate = new Translate(-v, 0);
             };
 
             _loadMoreButton = new Button(OnLoadMoreClicked) { text = "Load more..." };
@@ -231,7 +231,7 @@ namespace Unition.Editor.UI
         private void BuildColumns()
         {
             _headerRow.Clear();
-            _headerRow.transform.position = Vector3.zero;
+            _headerRow.style.translate = new Translate(0, 0);
             _columnNames.Clear();
 
             if (_database?.Properties == null)
